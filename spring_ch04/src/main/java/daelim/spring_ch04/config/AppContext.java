@@ -4,9 +4,20 @@ package daelim.spring_ch04.config;
 import daelim.spring_ch04.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 @Configuration
+@ComponentScan(basePackages = {"daelim.spring_ch04", "daelim.test"})
+
+//예외처리
+//        , excludeFilters = @ComponentScan.Filter(type= FilterType.REGEX, pattern = "daelim.spring_ch04\\..*Dao")) //정규표현식
+//        , excludeFilters = @ComponentScan.Filter(type= FilterType.ASPECTJ, pattern = "daelim.spring_ch04.*Dao")) //aspectj
+
+//        , excludeFilters = {@ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = MemberDao.class) //ASSIGNABLE_TYPE
+//        ,@ComponentScan.Filter(type= FilterType.ASPECTJ, pattern = "daelim.spring_ch04.*Service")})
+
 
 public class AppContext {
 
@@ -17,7 +28,7 @@ public class AppContext {
         return new MemberDao();
     }
 
-
+/*
     @Bean
     public MemberRegisterService memberRegisterService(){
         return new MemberRegisterService();
@@ -30,6 +41,7 @@ public class AppContext {
    //     changePasswordService.setMemberDao(memberDao());
         return changePasswordService;
     }
+ */
 
     @Bean
     @Qualifier("memberPrinter")
@@ -43,13 +55,13 @@ public class AppContext {
         return new MemberSummaryPrinter();
     }
 
-
+/*
     @Bean
     public MemberListPrinter memberListPrinter(){
         //return new MemberListPrinter(memberDao(), memberPrinter());
         return new MemberListPrinter();
     }
-202
+
     @Bean
     public MemberInfoPrinter memberInfoPrinter(){
         MemberInfoPrinter  memberInfoPrinter = new MemberInfoPrinter();
@@ -57,6 +69,7 @@ public class AppContext {
         memberInfoPrinter.setMemberPrinter(memberPrinter2());
         return memberInfoPrinter;
     }
+ */
 
     @Bean
     public VersionPrinter versionPrinter(){

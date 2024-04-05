@@ -1,5 +1,9 @@
-package daelim.spring_ch04;
+package daelim.test;
 
+import daelim.spring_ch04.DuplicationMemberException;
+import daelim.spring_ch04.Member;
+import daelim.spring_ch04.MemberDao;
+import daelim.spring_ch04.RegistRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
