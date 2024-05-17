@@ -6,15 +6,19 @@ import daelim.spring_ch10.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class RegisterController {
+
+
     @Autowired
     private MemberRegisterService memberRegisterService;
 
@@ -49,19 +53,27 @@ public class RegisterController {
     }
 
     @PostMapping("/register/step3")
-    public String handleStep3(@ModelAttribute("formData") RegisterRequest registerRequest){
+    public String handleStep3(@Valid RegisterRequest registerRequest, Errors errors){
         System.out.println("[POST] step 3 >>>>>>>>>>");
-        System.out.println("email:" + registerRequest.getEmail());
-        System.out.println("name:" + registerRequest.getName());
+//        System.out.println("email:" + registerRequest.getEmail());
+//        System.out.println("name:" + registerRequest.getName());
+
+//        new RegisterRequestValidator().validate(registerRequest, errors);
+//        System.out.println("hasErrors() :" + errors.hasErrors());
+
+        if(errors.hasErrors()) {
+            return "register/step2";
+        }
 
         //service 로직 처리
         try{
+            memberRegisterService.regist(registerRequest);
             System.out.println("성공");
             return "register/step3";
 
         }catch(DuplicationMemberException ex){
-            ex.printStackTrace();
-            System.out.println("실 패");
+//            ex.printStackTrace();
+            errors.rejectValue("email", "duplicate");
             return "register/step2";
         }
     }
